@@ -1,0 +1,206 @@
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+.login-form {
+  font-family: "Roboto", sans-serif; 
+  padding: 35px;
+  font-size: 14px;
+  position: relative;
+  margin: 0px auto;
+  background-color:	#f9f9f9;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#modal-title {
+font-family: 'Bungee Shade';
+color:#5cb85c;
+font-size: 630%;
+position: relative;
+margin: auto;
+margin-bottom: -10px;
+}
+  
+#description {
+  font-family: "Roboto", sans-serif;
+  color:	#5cb85c;
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+#instructions {
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 10px;
+  color: #5cb85c;
+  font-size: 28px;
+
+
+}
+.avatars {
+  background-color:	#f9f9f9;
+  text-align: center;
+  position: relative;
+  margin-left: 50%;
+  margin-right: 50%;
+}
+
+#imgcharlie #imgcartwheel #imgflashdancer #imgballerina {
+float: center;
+text-align: center;
+position: fixed;
+margin-left: 50%;
+margin-right: 50%;
+background-color:	#f9f9f9;
+}
+
+
+
+input[type="text"]
+{
+  text-align: center;
+   width: 100%;
+   max-width: 500px;
+   height: 65px;
+   margin: auto;
+   margin-top: 45px;
+   margin-bottom: 10px;
+   font-family: "Roboto", sans-serif;
+   font-size: 14px;
+   position: relative;
+}
+
+.picker > div {
+  display: inline-block;
+  background-color:		#5cb85c;
+  color: #FFFFFF;
+  z-index: 99;
+}
+
+.picker > div,
+img {
+  width: 200px;
+  height: 200px;
+}
+
+.btn-start{
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  height: 65px;
+  margin: auto;
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  background-color:	#5cb85c;
+  color: #FFFFFF;
+  font-size: 16px;
+  border: 0;
+  letter-spacing: 5px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+
+.intermediate {
+  text-align: center;
+    width: 300px;
+    position: absolute;
+    margin: 0px auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-top: 150px;
+}
+
+.rules #playersConnected {
+  margin-top: 200px;
+  color: #fff;
+  position: relative;
+  width: 100%;
+  padding: 10px;
+}
+
+.counter {
+   width: 80px;
+   height: 50px;
+    margin: auto;
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    background-color:#d9534f;
+    color: #FFFFFF;
+    font-size: 36px;
+    border: 0;
+}
+
+.quiz {
+  font-family: "Roboto", sans-serif; 
+  padding: 45px;
+  font-size: 14px;
+  position: relative;
+  margin: 0px auto;
+  background-color:	#f9f9f9;
+  text-align: center;
+}
+
+#scoreboard {
+  font-family: "Roboto", sans-serif; 
+  color:	#428bca;
+  font-size: 14px;
+  position: relative;
+  margin: auto;
+  margin-bottom: 25px;
+}
+
+.question {
+  font-family: "Roboto", sans-serif; 
+  color:#5cb85c;
+  font-size: 44px;
+  position: relative;
+  margin: auto;
+  margin-bottom: -10px;
+  }
+
+  #btn1, #btn2, #btn3, #btn4{
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    height: 65px;
+    margin: auto;
+    margin-top: 25px;
+    padding: 15px;
+    position: relative;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    background-color:	#5cb85c;
+    color: #FFFFFF;
+    font-size: 16px;
+    border: 0;
+    letter-spacing: 5px;
+  
+  }
+
+#finalresult, {
+    margin-top:200px;
+    font-size: 30px;
+    text-align: center;
+    color: #009246;
+}
+
+#finalresult {
+    text-align: center;
+}
+
+#finalresult a{
+    margin-top:200px;
+    font-size: 17px;
+    text-align: center;
+    color: #a2a2a2;
+    padding: 10px;
+}
+
+

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Beat Louis</title>
+	<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'/>
+	<link rel="stylesheet" href="/stylesheets/style.css" />
+	<link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="selector.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script>
+
+var socket = io.connect("http://localhost:4444");
+var i,username,j=0,myscore=0,otherscore=0,finalresults,ti,user_id;
+
+socket.on('updatechat', function (username, data, userID) {
+	$('#conversation').append('<br>' + data + '<br>');
+	user_id = userID;
+});
+			
+socket.on('game', function (data) {
+	$('.quiz').append('<br>'+ data + '<br>' );
+});
+
+socket.on('sendQuestions', function(data){
+		$(".intermediate").hide();
+		$(".quiz").show();
+
+		i=0;
+
+		ti = setInterval(function(){
+		if(i < 4) {		
+		j=0;j++;
+		$('#qst').text(data.questions[i].question);
+		$('#btn1').attr('value', 0).text(data.questions[i].choices[0]);
+		$('#btn2').attr('value', 1).text(data.questions[i].choices[1]);
+		$('#btn3').attr('value', 2).text(data.questions[i].choices[2]);
+		$('#btn4').attr('value', 3).text(data.questions[i].choices[3]);
+		
+		//timer
+		$(document).ready(function() {
+			  var counter = 0;
+			  var c = 1;
+			  var k = setInterval(function(){
+			  $(".counter").html(c);
+			    counter++;
+			    c++;
+			    if(counter == 10) {
+			        clearInterval(k);
+
+			    }
+		  }, 10000);
+		});
+		//timer
+
+		
+		$('.choices button').click(function() {
+    			var givenAns = this.value;
+    			var correctAns = data.questions[i-1].correctAnswer; 
+    			var response = (givenAns == correctAns); 
+    			if(response){
+    				if(j==1){
+    				socket.emit('result',username,user_id);
+    				console.log("correct ans");
+    				console.log(username);
+    				console.log("value of inner j: "+ j)
+    				$('.correct-response').fadeIn().delay(800).fadeOut(); j++;}
+    		
+    			}else {
+    				if(j==1){
+    				$('.incorrect-response').fadeIn().delay(800).fadeOut();j++;}
+    			}
+		});
+
+
+	    }i++;
+
+		if(i==5){
+				clearInterval(ti);
+				$("#finalresult").fadeIn('slow');
+			}
+		}, 10000);
+
+	});
+
+	socket.on('viewresult',function(usr){
+		if(usr == username){
+				myscore+=1;
+				$("#myresult").text(myscore);
+
+		}
+		else{
+			otherscore=+1;
+				$("#otherresult").text(otherscore);
+		}
+
+		if(myscore>otherscore){
+			$("#finalresult").text("You Win!");
+			//finalresults=0;
+			//console.log("final winner");
+		} else if(myscore<otherscore){
+			$("#finalresult").text("You Lose..");
+			//finalresults=1;
+			//console.log("final loser");
+		} else{
+			//finalresults=2;
+			$("#finalresult").text("Tie!");
+		}
+
+	});
+
+
+	$(document).ready(function(){
+		$(".quiz").hide();
+        $('#btnJoin').click(function(){
+		$(".login-form").fadeOut();
+		$(".intermediate").fadeIn();
+		username = $("#input-user").val();
+			if(username !=''){
+				socket.emit('addClient', username);
+          } else {
+            alert("USERNAME PLEASE!");
+            window.location="http://localhost:4444";
+          }
+        });
+	  });
+
+</script>
+</head>
+
+<body>
+
+<!--create the login page-->
+<div class="login-form" type="text" >
+		<div class="social-buttons">
+			<div id="modal-title"><span>TRIVIA</span></div>
+			<div id="description"><span>Introducing your new favorite self-hosted, two-player, miscellaneous trivia game.</span></div>
+			<hr>
+			<div id="instructions"><span>select avatar...</span></div>
+			<div class="container">
+					<div class="picker">
+						<div>
+							<label for="chkflashdancer"></label> 
+							<input type="checkbox" id="chkflashdancer"  onChange="toggleVisibility('imgflashdancer');"/>
+							<img  src="images/flashdancer.gif">
+						</div>
+						<div>
+							<label for="chkballerina"></label> 
+							<input type="checkbox" id="chkballerina"  onChange="toggleVisibility('imgballerina');"/>
+							<img  src="images/ballerina.gif">
+						</div>
+						<div>
+							<label for="chkcartwheel"></label> 
+							<input type="checkbox" id="chkcartwheel"  onChange="toggleVisibility('imgcartwheel');"/>
+							<img src="images/cartwheel.gif">
+						</div>
+						<div>
+							<label for="chkcharlie"></label> 
+							<input type="checkbox" id="chkcharlie"  onChange="toggleVisibility('imgcharlie');"/>
+							<img  src="images/charlie.gif">
+						</div>
+					</div>
+			</div>
+		<div>
+			<input id="input-user" type="text" placeholder="Enter Username Here..." > 
+		</div>
+		<div>
+			<button class="btn-start" id='btnJoin'>Start</button>
+		</div>
+	</div>
+</div>	
+
+
+<!--Waiting for Player 2 to Connnect-->
+<div class="intermediate" style="display: none; height: 50%; width:50%;">
+		<div id="conversation"><img src="/images/playersConnected.gif" alt="Connected"> </div>
+</div>
+
+<!--Both Players Connected
+<div>
+	<div class="text-center">
+		<div class="rules" style='display:none;'>
+			<div id="playersConnected"><img id="loading-questions" src="/images/loading.gif">
+	</div>
+</div>-->
+
+<div class="quiz">
+	<div class="row" id="scoreboard">
+			<div class="col-md-4" id="myresult" >My Score <h4>0</h4></div>
+			<div class="counter" class="col-md-4"><h3>0</h3></div>
+			<div  id="otherresult" class="col-md-4">Opponent Score<h4>0</h4></div>
+	</div>
+
+	<div class="question">
+		<p id="qst"></p>
+	<hr>
+	</div>
+
+	<div class="choices">
+		<div class="row">
+			<button id="btn1" value="" class="btn btn-primary btn-lg"></button>
+			<button  id="btn2" value="" class="btn btn-primary btn-lg "></button>'
+		</div>
+		<div class ="row" >
+			<button id="btn3" value="" class="btn btn-primary btn-lg"></button>
+			<button id="btn4" value="" class="btn btn-primary btn-lg"></button>
+		</div>
+	</div>
+</div>	
+
+<!--div class="avatars" class="row">
+		<div class ="col-sm-" id='imgcartwheel' style="visibility:hidden">
+			<img src="/images/cartwheelcopy.gif" />
+		</div>
+		<div class ="col-sm"id="imgcharlie" style="visibility:hidden">
+			<img src="/images/charliecopy.gif"/>
+		</div>
+		<div class ="col-sm" id="imgflashdancer" style="visibility:hidden">
+			<img src="/images/flashdancercopy.gif"/>
+		</div>
+		<div class ="col-sm" id="imgballerina" style="visibility:hidden">
+			<img src="/images/ballerinacopy.gif"/>
+		</div>-->
+
+	<div class="correct-response" style="display:none">
+			<div class='alert alert-success' role='alert'>Correct Answer!</div>
+		<div class="incorrect-response" style="display:none">
+			<div class='alert alert-danger' role='alert'>Ohhhh! Wrong Answer</div>
+		</div>	
+
+<div id="view_result"></div>
+
+
+	<div id="finalresult" tyle='display:none;'>
+	Tie
+	</div>
+	<br>
+	<div style="display:none;">
+		<a href="http://localhost:4444">Play Again...</a>
+	</div>
+
+
+
+
+</body>
+</html> 
